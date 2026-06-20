@@ -1,0 +1,102 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-background text-textPrimary font-sans h-full overflow-x-hidden;
+  }
+  
+  #root {
+    @apply h-full;
+  }
+}
+
+/* Custom smooth scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #E2E8F0;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #64748B;
+}
+
+/* Custom glassmorphism styling */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+/* Pulse animation for optimization arrows */
+@keyframes pulse-arrow {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+.animate-pulse-arrow-up {
+  animation: pulse-arrow 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse-arrow-down {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(4px);
+    opacity: 1;
+  }
+}
+
+.animate-pulse-arrow-down {
+  animation: pulse-arrow-down 1.5s infinite ease-in-out;
+}
+
+/* Background Animated Orbs */
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.15;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.orb-primary {
+  background: #6366F1;
+  width: 350px;
+  height: 350px;
+  animation: float-orb-1 20s infinite alternate;
+}
+
+.orb-success {
+  background: #10B981;
+  width: 250px;
+  height: 250px;
+  animation: float-orb-2 15s infinite alternate-reverse;
+}
+
+@keyframes float-orb-1 {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(60px, 40px) scale(1.1); }
+}
+
+@keyframes float-orb-2 {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-40px, -60px) scale(1.15); }
+}
