@@ -1,17 +1,13 @@
 import React, { useState } from 'react';
+import emailjs from '@emailjs/browser';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, Lock, Eye, EyeOff, CheckCircle, TrendingUp } from 'lucide-react';
-import emailjs from '@emailjs/browser';
 import { useAuth } from '../hooks/useAuth';
 import { Input } from '../components/ui/Input';
 import { Button } from '../components/ui/Button';
 import { Modal } from '../components/ui/Modal';
-
-const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID || '';
-const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || '';
-const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || '';
 
 const pageVariants = {
   initial: { opacity: 0, y: 24 },
@@ -45,6 +41,27 @@ export const Login: React.FC = () => {
 
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<LoginFormInputs>();
 
+  const sendOtpEmail = (email: string, otp: string) => {
+    emailjs.send(
+      'service_7hh7trl',
+      'template_qzx56wf',
+      {
+        to_email: email,
+        email: email,
+        otp_code: otp,
+        otp: otp,
+        code: otp
+      },
+      '5Ci8I2jILwdVagfxd'
+    )
+    .then(() => {
+      console.log(`[EmailJS] OTP email successfully sent to ${email}`);
+    })
+    .catch((err) => {
+      console.error('[EmailJS] Failed to send OTP email:', err);
+    });
+  };
+
   React.useEffect(() => {
     document.title = "Log In — StockSense";
   }, []);
@@ -52,30 +69,6 @@ export const Login: React.FC = () => {
   const triggerToast = (msg: string) => {
     setToastMessage(msg);
     setTimeout(() => setToastMessage(null), 3000);
-  };
-
-  const sendOtpEmail = (email: string, otp: string) => {
-    if (EMAILJS_SERVICE_ID && EMAILJS_TEMPLATE_ID && EMAILJS_PUBLIC_KEY) {
-      emailjs.send(
-        EMAILJS_SERVICE_ID,
-        EMAILJS_TEMPLATE_ID,
-        {
-          to_email: email,
-          otp_code: otp,
-        },
-        EMAILJS_PUBLIC_KEY
-      )
-      .then(() => {
-        triggerToast(`Verification code sent to ${email}.`);
-      })
-      .catch((err) => {
-        console.error('EmailJS failed to send:', err);
-        triggerToast('Error sending verification email.');
-      });
-    } else {
-      triggerToast(`Verification code generated.`);
-      console.warn(`[AuthService] Generated 2FA OTP for ${email}: ${otp}`);
-    }
   };
 
   // Get path to redirect back to if applicable
@@ -86,7 +79,10 @@ export const Login: React.FC = () => {
     setGeneratedOtp(otp);
     setLoginInputs(data);
     setIsOtpStep(true);
+    
     sendOtpEmail(data.email, otp);
+    triggerToast(`Verification code sent to ${data.email}.`);
+    console.warn(`[AuthService] Generated 2FA OTP for ${data.email}: ${otp}`);
   };
 
   const handleOtpSubmit = async (e: React.FormEvent) => {
@@ -260,6 +256,8 @@ export const Login: React.FC = () => {
                   setLoginInputs({ email: 'arjun@example.com', password: 'google-sso' });
                   setIsOtpStep(true);
                   sendOtpEmail('arjun@example.com', otp);
+                  triggerToast(`Verification code sent to arjun@example.com.`);
+                  console.warn(`[AuthService] Generated 2FA OTP for arjun@example.com: ${otp}`);
                 }}
               >
                 <svg className="h-4 w-4 shrink-0" viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
@@ -342,6 +340,8 @@ export const Login: React.FC = () => {
                     const otp = Math.floor(100000 + Math.random() * 900000).toString();
                     setGeneratedOtp(otp);
                     sendOtpEmail(loginInputs?.email || '', otp);
+                    triggerToast(`New verification code sent.`);
+                    console.warn(`[AuthService] Generated new 2FA OTP for ${loginInputs?.email}: ${otp}`);
                   }}
                   className="text-xs font-semibold text-accent hover:text-indigo-600 focus:outline-none"
                 >
