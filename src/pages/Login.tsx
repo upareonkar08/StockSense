@@ -263,9 +263,19 @@ export const Login: React.FC = () => {
               className="space-y-4 text-left"
             >
               <h3 className="text-2xl font-bold text-textPrimary text-center">Verify Identity</h3>
-              <p className="text-xs text-textSecondary text-center leading-relaxed mb-6">
-                A 6-digit verification code has been sent to <span className="font-semibold">{loginInputs?.email}</span>. Please check your developer console (F12) for the verification code.
+              <p className="text-xs text-textSecondary text-center leading-relaxed mb-4">
+                A 6-digit verification code has been sent to <span className="font-semibold">{loginInputs?.email}</span>.
               </p>
+
+              <div className="bg-indigo-50/70 border border-indigo-100 rounded-xl p-3.5 text-xs text-indigo-900 leading-relaxed mb-6">
+                <p className="font-bold text-indigo-950 flex items-center gap-1.5">
+                  <span>💡</span>
+                  <span>Demo Environment Helper</span>
+                </p>
+                <p className="mt-1 text-indigo-900/90 font-medium">
+                  Since this is a client-side prototype with no backend email server connected, you can verify using code: <strong className="text-accent text-sm font-black tracking-wider bg-white px-2 py-0.5 rounded border border-indigo-200">{generatedOtp}</strong> (or use fallback code <code className="font-mono bg-white px-1.5 py-0.5 rounded border border-indigo-200 font-bold">123456</code>).
+                </p>
+              </div>
 
               <form onSubmit={handleOtpSubmit} className="space-y-4">
                 <Input
