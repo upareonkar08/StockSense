@@ -38,28 +38,60 @@ export const Login: React.FC = () => {
   const [otpError, setOtpError] = useState('');
   const [loginInputs, setLoginInputs] = useState<LoginFormInputs | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [isSendingEmail, setIsSendingEmail] = useState(false);
+  const [emailDeliveryStatus, setEmailDeliveryStatus] = useState<{ success: boolean; message: string } | null>(null);
+  const [resendCooldown, setResendCooldown] = useState(0);
+  const [showDemoHelper, setShowDemoHelper] = useState(false);
 
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<LoginFormInputs>();
 
-  const sendOtpEmail = (email: string, otp: string) => {
-    emailjs.send(
-      'service_7hh7trl',
-      'template_qzx56wf',
-      {
-        to_email: email,
-        email: email,
-        otp_code: otp,
-        otp: otp,
-        code: otp
-      },
-      '5Ci8I2jILwdVagfxd'
-    )
-    .then(() => {
+  React.useEffect(() => {
+    let timer: ReturnType<typeof setInterval>;
+    if (resendCooldown > 0) {
+      timer = setInterval(() => {
+        setResendCooldown((prev) => prev - 1);
+      }, 1000);
+    }
+    return () => clearInterval(timer);
+  }, [resendCooldown]);
+
+  const sendOtpEmail = async (email: string, otp: string): Promise<boolean> => {
+    setIsSendingEmail(true);
+    setEmailDeliveryStatus(null);
+    try {
+      await emailjs.send(
+        'service_7hh7trl',
+        'template_qzx56wf',
+        {
+          to_email: email,
+          user_email: email,
+          email: email,
+          otp_code: otp,
+          otp: otp,
+          code: otp,
+          passcode: otp,
+          to_name: email.split('@')[0] || 'User'
+        },
+        '5Ci8I2jILwdVagfxd'
+      );
       console.log(`[EmailJS] OTP email successfully sent to ${email}`);
-    })
-    .catch((err) => {
+      setEmailDeliveryStatus({
+        success: true,
+        message: `OTP verification code emailed to ${email}. Check your inbox or spam folder.`
+      });
+      setResendCooldown(30);
+      return true;
+    } catch (err: any) {
       console.error('[EmailJS] Failed to send OTP email:', err);
-    });
+      const errText = err?.text || err?.message || 'Email service error';
+      setEmailDeliveryStatus({
+        success: false,
+        message: `Failed to deliver OTP email (${errText}). Verify your EmailJS configuration or use the dev helper below.`
+      });
+      return false;
+    } finally {
+      setIsSendingEmail(false);
+    }
   };
 
   React.useEffect(() => {
@@ -79,10 +111,8 @@ export const Login: React.FC = () => {
     setGeneratedOtp(otp);
     setLoginInputs(data);
     setIsOtpStep(true);
-    
-    sendOtpEmail(data.email, otp);
-    triggerToast(`Verification code sent to ${data.email}.`);
-    console.warn(`[AuthService] Generated 2FA OTP for ${data.email}: ${otp}`);
+    setOtpError('');
+    await sendOtpEmail(data.email, otp);
   };
 
   const handleOtpSubmit = async (e: React.FormEvent) => {
@@ -251,13 +281,14 @@ export const Login: React.FC = () => {
                 fullWidth
                 className="flex items-center justify-center gap-2"
                 onClick={async () => {
+                  const inputEmail = (document.getElementById('email') as HTMLInputElement)?.value;
+                  const targetEmail = inputEmail && /\S+@\S+\.\S+/.test(inputEmail) ? inputEmail : 'user@example.com';
                   const otp = Math.floor(100000 + Math.random() * 900000).toString();
                   setGeneratedOtp(otp);
-                  setLoginInputs({ email: 'arjun@example.com', password: 'google-sso' });
+                  setLoginInputs({ email: targetEmail, password: 'google-sso' });
                   setIsOtpStep(true);
-                  sendOtpEmail('arjun@example.com', otp);
-                  triggerToast(`Verification code sent to arjun@example.com.`);
-                  console.warn(`[AuthService] Generated 2FA OTP for arjun@example.com: ${otp}`);
+                  setOtpError('');
+                  await sendOtpEmail(targetEmail, otp);
                 }}
               >
                 <svg className="h-4 w-4 shrink-0" viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
@@ -287,21 +318,62 @@ export const Login: React.FC = () => {
               className="space-y-4 text-left"
             >
               <h3 className="text-2xl font-bold text-textPrimary text-center">Verify Identity</h3>
-              <p className="text-xs text-textSecondary text-center leading-relaxed mb-4">
-                A 6-digit verification code has been sent to <span className="font-semibold">{loginInputs?.email}</span>.
+              <p className="text-xs text-textSecondary text-center leading-relaxed mb-3">
+                A 6-digit verification code was generated for <span className="font-semibold text-textPrimary">{loginInputs?.email}</span>.
               </p>
 
-              <div className="bg-indigo-50/70 border border-indigo-100 rounded-xl p-3.5 text-xs text-indigo-900 leading-relaxed mb-6">
-                <p className="font-bold text-indigo-950 flex items-center gap-1.5">
-                  <span>💡</span>
-                  <span>Demo Environment Helper</span>
-                </p>
-                <p className="mt-1 text-indigo-900/90 font-medium">
-                  Since this is a client-side prototype with no backend email server connected, you can verify using code: <strong className="text-accent text-sm font-black tracking-wider bg-white px-2 py-0.5 rounded border border-indigo-200">{generatedOtp}</strong> (or use fallback code <code className="font-mono bg-white px-1.5 py-0.5 rounded border border-indigo-200 font-bold">123456</code>).
-                </p>
+              {/* Delivery Status Banner */}
+              {isSendingEmail && (
+                <div className="bg-blue-50 border border-blue-200 rounded-xl p-3 text-xs text-blue-800 flex items-center justify-center gap-2">
+                  <div className="w-3.5 h-3.5 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+                  <span>Dispatching OTP via EmailJS...</span>
+                </div>
+              )}
+
+              {!isSendingEmail && emailDeliveryStatus && (
+                <div
+                  className={`rounded-xl p-3.5 text-xs leading-relaxed ${
+                    emailDeliveryStatus.success
+                      ? 'bg-emerald-50 border border-emerald-200 text-emerald-900'
+                      : 'bg-rose-50 border border-rose-200 text-rose-900'
+                  }`}
+                >
+                  <p className="font-semibold flex items-center gap-1.5 mb-0.5">
+                    <span>{emailDeliveryStatus.success ? '✅ Email Dispatched' : '⚠️ Email Delivery Notice'}</span>
+                  </p>
+                  <p className="opacity-90">{emailDeliveryStatus.message}</p>
+                </div>
+              )}
+
+              {/* Toggleable Demo Helper */}
+              <div className="pt-1">
+                <button
+                  type="button"
+                  onClick={() => setShowDemoHelper(!showDemoHelper)}
+                  className="text-[11px] font-medium text-textSecondary hover:text-accent underline focus:outline-none"
+                >
+                  {showDemoHelper ? 'Hide Dev Demo Helper' : '🛠️ Debug: Show Demo Helper Code'}
+                </button>
+
+                {showDemoHelper && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="mt-2 bg-indigo-50/80 border border-indigo-100 rounded-xl p-3 text-xs text-indigo-900 leading-relaxed"
+                  >
+                    <p className="font-bold text-indigo-950 flex items-center gap-1.5 mb-1">
+                      <span>💡</span>
+                      <span>Demo Helper Code</span>
+                    </p>
+                    <p className="text-indigo-900/90 font-medium">
+                      Generated OTP: <strong className="text-accent text-sm font-black tracking-wider bg-white px-2 py-0.5 rounded border border-indigo-200">{generatedOtp}</strong> (or fallback code <code className="font-mono bg-white px-1.5 py-0.5 rounded border border-indigo-200 font-bold">123456</code>).
+                    </p>
+                  </motion.div>
+                )}
               </div>
 
-              <form onSubmit={handleOtpSubmit} className="space-y-4">
+              <form onSubmit={handleOtpSubmit} className="space-y-4 pt-1">
                 <Input
                   id="otpCode"
                   type="text"
@@ -326,6 +398,7 @@ export const Login: React.FC = () => {
                       setIsOtpStep(false);
                       setUserTypedOtp('');
                       setOtpError('');
+                      setEmailDeliveryStatus(null);
                     }}
                   >
                     Cancel
@@ -336,16 +409,20 @@ export const Login: React.FC = () => {
               <div className="text-center pt-2">
                 <button
                   type="button"
-                  onClick={() => {
+                  disabled={resendCooldown > 0 || isSendingEmail}
+                  onClick={async () => {
+                    if (resendCooldown > 0 || isSendingEmail || !loginInputs?.email) return;
                     const otp = Math.floor(100000 + Math.random() * 900000).toString();
                     setGeneratedOtp(otp);
-                    sendOtpEmail(loginInputs?.email || '', otp);
-                    triggerToast(`New verification code sent.`);
-                    console.warn(`[AuthService] Generated new 2FA OTP for ${loginInputs?.email}: ${otp}`);
+                    await sendOtpEmail(loginInputs.email, otp);
                   }}
-                  className="text-xs font-semibold text-accent hover:text-indigo-600 focus:outline-none"
+                  className="text-xs font-semibold text-accent hover:text-indigo-600 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Resend Code
+                  {isSendingEmail
+                    ? 'Sending...'
+                    : resendCooldown > 0
+                    ? `Resend Code in ${resendCooldown}s`
+                    : 'Resend Code'}
                 </button>
               </div>
             </motion.div>
