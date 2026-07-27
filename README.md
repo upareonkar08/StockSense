@@ -1,73 +1,88 @@
-# React + TypeScript + Vite
+# 📈 StockSense — Smart Portfolio & Investment Advisor
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**StockSense** is a modern, high-performance stock market tracking, paper trading, and personalized investment advisory platform built with **React**, **TypeScript**, **TailwindCSS**, and **Vite**.
 
-Currently, two official plugins are available:
+![StockSense Banner](https://img.shields.io/badge/StockSense-v1.0.0-indigo?style=for-the-badge&logo=react)
+![License](https://img.shields.io/badge/License-MIT-emerald?style=for-the-badge)
+![Deployment Status](https://img.shields.io/badge/Deployment-Vercel-black?style=for-the-badge&logo=vercel)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## 🌟 Key Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 1. 💡 Plan-Based Investment Advisor
+- **Goal-Oriented Planning:** Input your investment budget (e.g., ₹50,000), target duration (e.g., 5 years), and minimum target annual return % (e.g., 8%/yr).
+- **Automated Asset Matcher:** Dynamically filters stock universes to recommend optimal share quantities fitting your budget.
+- **Sell & Reallocation Suggestions:** Identifies holdings in your portfolio that fall below your target return or exceed your risk capacity for short time horizons.
+- **Compound Growth Calculator:** Visualizes projected wealth growth over time using compound interest calculations.
 
-## Expanding the ESLint configuration
+### 2. 🔒 Secure 2FA OTP Email Verification
+- Integrated with **EmailJS** for client-side OTP dispatches directly to user email inboxes.
+- Real-time on-screen delivery diagnostics and error alerts.
+- Built-in 30-second cooldown timer to prevent rate-limiting.
+- Collapsible debug helper for offline development testing.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 3. 📊 Interactive Portfolio & Paper Trading
+- Real-time stock quotes, interactive charts, and gain/loss tracking.
+- Paper trading simulation: Buy and sell shares with virtual paper cash.
+- Sector distribution charts, risk metrics, and history logs.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### 4. 🎨 Premium UI/UX Design
+- Sleek dark/light theme support.
+- Micro-interactions powered by **Framer Motion**.
+- Iconography by **Lucide React**.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 🛠️ Technology Stack
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- **Frontend Core:** React 18, TypeScript, Vite
+- **Styling:** TailwindCSS, Framer Motion
+- **Icons:** Lucide React
+- **Email Service:** EmailJS Browser SDK (`@emailjs/browser`)
+- **Routing & Forms:** React Router v6, React Hook Form
+- **Deployment:** Vercel
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 🚀 Quick Start & Installation
+
+### Prerequisites
+- Node.js (v18.0 or higher)
+- npm or yarn
+
+### Installation Steps
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/upareonkar08/StockSense.git
+   cd StockSense
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Start the local development server:**
+   ```bash
+   npm run dev
+   ```
+   Open `http://localhost:5173` in your browser.
+
+4. **Build for production:**
+   ```bash
+   npm run build
+   ```
+
+---
+
+## 🌐 Live Deployment & Links
+
+- 🚀 **Live Web Application:** [https://stocksense-two-navy.vercel.app](https://stocksense-two-navy.vercel.app)
+- 🐙 **GitHub Repository:** [https://github.com/upareonkar08/StockSense](https://github.com/upareonkar08/StockSense)
+
+---
+
+## 📄 License
+This project is open source and available under the [MIT License](LICENSE).
