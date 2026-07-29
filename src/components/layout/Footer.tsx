@@ -1,5 +1,6 @@
 import React from 'react';
 import { TrendingUp } from 'lucide-react';
+import VisitorCounter from '../ui/VisitorCounter';
 
 export const Footer: React.FC = () => {
   return (
@@ -13,6 +14,11 @@ export const Footer: React.FC = () => {
               <span>Stock<span className="text-accent">Sense</span></span>
             </div>
             <p className="text-xs text-slate-400">Smart investing, simplified.</p>
+          </div>
+
+          {/* Visitor Counter */}
+          <div className="flex flex-col items-center gap-1.5 bg-slate-900/60 border border-slate-800 rounded-xl px-4 py-2">
+            <VisitorCounter variant="badge" className="bg-slate-800/80 border-slate-700 text-slate-200" />
           </div>
 
           {/* Links */}

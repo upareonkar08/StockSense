@@ -14,6 +14,7 @@ import {
   Zap
 } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
+import VisitorCounter from '../ui/VisitorCounter';
 
 interface SidebarProps {
   isOpen?: boolean;
@@ -99,8 +100,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </nav>
       </div>
 
-      {/* User Info & Logout */}
+      {/* User Info, Visitor Counter & Logout */}
       <div className="p-4 border-t border-borderColor space-y-3">
+        <div className="px-1 py-1">
+          <VisitorCounter variant="compact" />
+        </div>
         {user && (
           <div className="flex items-center gap-3 px-2">
             <div className="h-9 w-9 rounded-full bg-indigo-50 border border-indigo-100 flex items-center justify-center text-xs font-semibold text-accent">
