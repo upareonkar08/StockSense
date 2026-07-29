@@ -7,6 +7,7 @@ import PortfolioGrowthChart from '../components/charts/PortfolioGrowthChart';
 import AllocationPieChart from '../components/charts/AllocationPieChart';
 import HoldingsTable from '../components/dashboard/HoldingsTable';
 import RecommendationCard from '../components/dashboard/RecommendationCard';
+import VisitorCounter from '../components/ui/VisitorCounter';
 import { useAuth } from '../hooks/useAuth';
 import { usePortfolio } from '../hooks/usePortfolio';
 import {
@@ -82,13 +83,18 @@ export const Dashboard: React.FC = () => {
     <DashboardLayout>
       <div className="space-y-8 text-left">
         {/* Header Greeting */}
-        <div className="space-y-1">
-          <h2 className="text-2xl font-bold text-textPrimary tracking-tight">
-            {greeting}, {firstName} 👋
-          </h2>
-          <p className="text-sm text-textSecondary font-medium">
-            Here's how your portfolio is performing today.
-          </p>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="space-y-1">
+            <h2 className="text-2xl font-bold text-textPrimary tracking-tight">
+              {greeting}, {firstName} 👋
+            </h2>
+            <p className="text-sm text-textSecondary font-medium">
+              Here's how your portfolio is performing today.
+            </p>
+          </div>
+
+          {/* Visitor Counter Widget */}
+          <VisitorCounter variant="card" className="shrink-0 sm:max-w-xs" />
         </div>
 
         {/* Row 1: Stat Cards */}

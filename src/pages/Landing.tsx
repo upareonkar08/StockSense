@@ -7,6 +7,7 @@ import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
+import VisitorCounter from '../components/ui/VisitorCounter';
 import { dummyTestimonials } from '../data/dummyData';
 
 const pageVariants = {
@@ -94,13 +95,18 @@ export const Landing: React.FC = () => {
                 StockSense gives you AI-powered portfolio analysis, risk scoring, and smart rebalancing suggestions — all in one place.
               </p>
 
-              <div className="flex flex-wrap gap-4 pt-2">
+              <div className="flex flex-wrap gap-4 pt-2 items-center">
                 <Link to="/signup">
                   <Button variant="primary">Get Started Free</Button>
                 </Link>
                 <Link to="/login">
                   <Button variant="outline">Learn More</Button>
                 </Link>
+              </div>
+
+              {/* Total Visits Counter Badge */}
+              <div className="pt-3">
+                <VisitorCounter variant="badge" />
               </div>
             </div>
 
