@@ -1,4 +1,4 @@
-# 📈 StockSense — Smart Portfolio & Investment Advisor
+
 
 **StockSense** is a modern, high-performance stock market tracking, paper trading, and personalized investment advisory platform built with **React**, **TypeScript**, **TailwindCSS**, and **Vite**.
 
