@@ -2,7 +2,9 @@
 
 **StockSense** is a modern, high-performance stock market tracking, paper trading, and personalized investment advisory platform built with **React**, **TypeScript**, **TailwindCSS**, and **Vite**.
 
-
+![StockSense Banner](https://img.shields.io/badge/StockSense-v1.0.0-indigo?style=for-the-badge&logo=react)
+![License](https://img.shields.io/badge/License-MIT-emerald?style=for-the-badge)
+![Deployment Status](https://img.shields.io/badge/Deployment-Vercel-black?style=for-the-badge&logo=vercel)
 
 ---
 
