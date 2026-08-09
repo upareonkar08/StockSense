@@ -77,3 +77,12 @@
 
 ---
 
+## 🌐 Live Deployment & Links
+
+- 🚀 **Live Web Application:** [https://stocksense-two-navy.vercel.app](https://stocksense-two-navy.vercel.app)
+- 🐙 **GitHub Repository:** [https://github.com/upareonkar08/StockSense](https://github.com/upareonkar08/StockSense)
+
+---
+
+## 📄 License
+This project is open source and available under the [MIT License](LICENSE).
