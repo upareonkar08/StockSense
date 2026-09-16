@@ -31,6 +31,7 @@
   - [6. 5-Year Historical Strategy Backtester](#6-5-year-historical-strategy-backtester)
   - [7. AI Analyst Financial Tutor](#7-ai-analyst-financial-tutor)
   - [8. Real-Time Visitor Tracking System](#8-real-time-visitor-tracking-system)
+  - [9. Current Affairs & News Stock Advisor](#9-current-affairs--news-stock-advisor)
 - [Technical Architecture & Data Flow](#-technical-architecture--data-flow)
 - [Directory Structure](#-directory-structure)
 - [Installation & Local Setup](#-installation--local-setup)
@@ -114,7 +115,13 @@ The **Visitor Counter System** (`src/components/ui/VisitorCounter.tsx`):
 - **Cloud Counter API:** Connects to `api.counterapi.dev` to track global site visits.
 - **Session-Aware Deduplication:** Uses `sessionStorage` to count unique browser sessions.
 - **Local Fallback:** Persists visit count in `localStorage` if network or cloud API requests are blocked.
-- **Prominent Display:** Embedded in the **Dashboard Header**, **Landing Hero**, **Navigation Sidebar**, and **Footer**.
+---
+
+### 9. 📰 Current Affairs & News Stock Advisor
+The **Current Affairs Module** (`src/pages/NewsAdvisor.tsx`):
+- **Real-Time Event Mapping:** Maps macroeconomic news events (AI hardware demand surges, central bank interest rate cuts, clean energy tax incentives, defense spending increases) to direct equity beneficiaries.
+- **Custom Headline AI Analyzer:** Input any custom breaking news story or headline to instantly receive AI-analyzed sentiment scores and top beneficiary stock picks.
+- **1-Click Portfolio Execution:** Buy or paper-trade recommended beneficiary stocks directly into your portfolio.
 
 ---
 

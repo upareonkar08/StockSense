@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { DollarSign, Heart, AlertTriangle, TrendingUp, ArrowUpRight } from 'lucide-react';
+import { DollarSign, Heart, AlertTriangle, TrendingUp, ArrowUpRight, Newspaper } from 'lucide-react';
 import DashboardLayout from '../components/layout/DashboardLayout';
 import StatCard from '../components/dashboard/StatCard';
 import PortfolioGrowthChart from '../components/charts/PortfolioGrowthChart';
@@ -152,7 +152,32 @@ export const Dashboard: React.FC = () => {
           />
         </div>
 
-        {/* Row 2: Charts */}
+        {/* Current Affairs News Advisor Callout Banner */}
+        <div className="bg-gradient-to-r from-indigo-900 via-slate-900 to-indigo-950 rounded-2xl p-5 text-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg border border-indigo-800/50">
+          <div className="flex items-center gap-3.5">
+            <span className="p-3 bg-indigo-500/20 text-indigo-300 rounded-xl border border-indigo-500/30 shrink-0">
+              <Newspaper size={24} />
+            </span>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                  🔥 New Feature
+                </span>
+                <h4 className="font-bold text-sm text-white">Current Affairs Stock Advisor</h4>
+              </div>
+              <p className="text-xs text-indigo-200/80 mt-0.5">
+                AI stock recommendations driven by real-time market news, interest rate policies, & sector headlines.
+              </p>
+            </div>
+          </div>
+          <Link
+            to="/news-advisor"
+            className="shrink-0 bg-white hover:bg-indigo-50 text-indigo-950 px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm"
+          >
+            <span>Explore Current Affairs Picks</span>
+            <ArrowUpRight size={14} />
+          </Link>
+        </div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left Chart (65%) */}
           <div className="lg:col-span-2 bg-white rounded-xl border border-borderColor p-6 shadow-sm flex flex-col justify-between">

@@ -11,7 +11,8 @@ import {
   User,
   LogOut,
   Sparkles,
-  Zap
+  Zap,
+  Newspaper
 } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import VisitorCounter from '../ui/VisitorCounter';
@@ -36,6 +37,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { name: 'Portfolio Health', path: '/health', icon: Heart },
     { name: 'Optimizer', path: '/optimizer', icon: Settings2 },
     { name: 'Suggestions', path: '/suggestions', icon: Sparkles },
+    { name: 'News & Current Affairs', path: '/news-advisor', icon: Newspaper },
     { name: 'Paper Trading', path: '/trading', icon: Zap },
     { name: 'Backtesting', path: '/backtest', icon: TrendingUp },
     { name: 'Analyst Chat', path: '/tutor', icon: MessageSquare },

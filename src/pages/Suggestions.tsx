@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { 
   Sparkles, 
   Plus, 
@@ -10,7 +11,8 @@ import {
   Heart, 
   TrendingUp, 
   AlertTriangle, 
-  Settings2
+  Settings2,
+  Newspaper
 } from 'lucide-react';
 import DashboardLayout from '../components/layout/DashboardLayout';
 import Card from '../components/ui/Card';
@@ -444,7 +446,7 @@ export const Suggestions: React.FC = () => {
         </div>
 
         {/* Tab switcher */}
-        <div className="flex border-b border-borderColor">
+        <div className="flex flex-wrap border-b border-borderColor gap-1">
           <button
             onClick={() => setActiveTab('explore')}
             className={`px-5 py-2 text-xs font-bold border-b-2 transition-all uppercase tracking-wider ${
@@ -466,6 +468,13 @@ export const Suggestions: React.FC = () => {
             <Settings2 size={14} />
             <span>Personalized Planner</span>
           </button>
+          <Link
+            to="/news-advisor"
+            className="px-5 py-2 text-xs font-bold border-b-2 border-transparent text-emerald-600 hover:text-emerald-700 transition-all uppercase tracking-wider flex items-center gap-1.5 bg-emerald-50/50 rounded-t-lg"
+          >
+            <Newspaper size={14} />
+            <span>Current Affairs Advisor 🔥</span>
+          </Link>
         </div>
 
         {/* Success Toast */}

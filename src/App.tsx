@@ -23,6 +23,7 @@ import AITutor from './pages/AITutor';
 import ProfileSettings from './pages/ProfileSettings';
 import Suggestions from './pages/Suggestions';
 import Trading from './pages/Trading';
+import NewsAdvisor from './pages/NewsAdvisor';
 
 // Scroll to top component
 const ScrollToTop: React.FC = () => {
@@ -120,6 +121,14 @@ const AnimatedAppRoutes: React.FC = () => {
           element={
             <ProtectedRoute>
               <Trading />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/news-advisor"
+          element={
+            <ProtectedRoute>
+              <NewsAdvisor />
             </ProtectedRoute>
           }
         />
